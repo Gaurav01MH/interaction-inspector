@@ -15,7 +15,7 @@
     "tokens:check": "node scripts/tokens.mjs --check"
   },
   "dependencies": {
-    "@oddmash/ui": "0.1.0",
+    "@oddmash/ui": "0.2.0",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
