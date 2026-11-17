@@ -15,7 +15,7 @@ The product README explains what Interaction Inspector is. Repository setup, loc
 
 ## Shared UI
 
-The four panel buttons use `@oddmash/ui/button`. The shared stylesheet is loaded inside the inspector’s shadow root. Compact sizing and the inspector palette are local overrides. Edit `tokens/inspector.json` for palette changes, then run `npm run tokens` and commit the generated CSS with the source.
+The panel uses Oddmash UI Button, Field, Select, and Switch. Field names the timeline filter group, Select filters by event type, and Switch limits the visible timeline to the selected element. The shared stylesheet is loaded inside the inspector’s shadow root. Compact sizing and the inspector palette are local overrides. Edit `tokens/inspector.json` for palette changes, then run `npm run tokens` and commit the generated CSS with the source.
 
 The dependency is pinned to an exact published npm version. Update the version and lockfile together, and verify the panel geometry, focus, permissions, and extension bundle size.
 
