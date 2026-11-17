@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Button } from '@oddmash/ui/button';
+import { Field } from '@oddmash/ui/field';
+import { Select } from '@oddmash/ui/select';
+import { Switch } from '@oddmash/ui/switch';
 import uiStyles from '@oddmash/ui/styles.css?inline';
 import styles from './inspector.scss?inline';
 import { classifyModality, eventTypes, labelForTag, readAria, readTabIndex } from './privacy';
@@ -259,20 +262,20 @@ const mount = () => {
           </dl>
         ) : <p>Pick an element to inspect its state.</p>}
         <h2>Observed events <span>· {entries.length} / 200</span></h2>
-        <div className="filters">
+        <Field className="filters" legend="Timeline filters">
           <label>Event type
-            <select value={eventFilter} onChange={(event) =>
+            <Select value={eventFilter} onChange={(event) =>
               setEventFilter(event.target.value as EventType | 'all')}>
               <option value="all">All events</option>
               {eventTypes.map((type) => <option key={type}>{type}</option>)}
-            </select>
+            </Select>
           </label>
           <label>
-            <input type="checkbox" checked={selectedOnly && selectedId !== undefined}
+            <Switch checked={selectedOnly && selectedId !== undefined}
               disabled={selectedId === undefined} onChange={(event) => setSelectedOnly(event.target.checked)} />
             Selected element
           </label>
-        </div>
+        </Field>
         {visibleEntries.length ? (
           <ol aria-label="Event timeline" className="timeline">
             {[...visibleEntries].reverse().map(({ id, elapsed, type, target }) =>

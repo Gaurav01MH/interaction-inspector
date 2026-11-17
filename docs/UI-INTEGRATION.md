@@ -1,11 +1,11 @@
 # Oddmash UI integration
 
-The panel consumes `@oddmash/ui/button` and injects its CSS into the existing closed Shadow DOM. The four toolbar buttons retain their labels, handlers, compact geometry and dark palette. Recording, permissions and privacy code are unchanged.
+The inspector uses Button for panel actions and Field, Select, and Switch for timeline filters. Shared CSS is adopted inside the existing closed Shadow DOM. Panel dimensions, the dark palette, and timeline layout belong to the extension. The package is pinned to an exact npm version in `package.json` and `package-lock.json`.
 
-Project-specific colors have one source: `tokens/inspector.json`. `npm run tokens` generates `src/generated/inspector-tokens.css`; `npm run tokens:check` rejects drift. The generated stylesheet precedes the existing layout rules. Remaining inspector-specific visualization styles are intentionally local.
+The initial Button migration matched the previous panel screenshot in its Chromium fixture. That result describes the original migration. Later work added the shared filter controls and their keyboard coverage.
 
-The dependency is pinned to an immutable Git commit until an approved npm release. Node 24 is required: npm builds the dependency using its `prepare` script. No npm registry publication is needed. To update, choose a reviewed Oddmash UI commit and run `npm install github:Oddmash/oddmash-ui#<commit>`, then commit both package files.
+Keep the permission boundary and privacy behavior in [the working agreements](../AGENTS.md) when adopting shared UI. Before adding a portalled overlay, verify that its portal stays inside the inspector's shadow root and that keyboard focus returns to the trigger after dismissal.
 
-Run `npm ci`, `npm run tokens:check`, `npm test`, `npm run build`, `npx playwright install chromium`, and `npm run test:e2e`. The extension tests cover actual MV3 toolbar activation, picking, recording, filtering, private input handling, reset and close.
+See [the contributor guide](../CONTRIBUTING.md) for token generation, dependency updates, build steps, and extension verification.
 
-Dialog/Tabs are exercised in the UI package's separate demo. They are not inserted into the inspector merely to demonstrate coverage. A closed-shadow modal integration needs separate focus and portal validation.
+[Initial integration](https://github.com/Oddmash/interaction-inspector/pull/5) · [npm dependency](https://github.com/Oddmash/interaction-inspector/pull/6) · [Timeline filter controls](https://github.com/Oddmash/interaction-inspector/pull/7)
