@@ -36,3 +36,7 @@ Preserve the privacy and permission boundaries in `AGENTS.md`. Any change to per
 ## Public contribution language
 
 Write issue and pull request titles, bodies, public review discussions, commit messages, and changelog entries in English. Use the shared English issue and PR templates from [Oddmash](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md). Preserve existing product documentation localization and provide translation help when needed.
+
+## Change-aware CI
+
+Documentation-only and repository metadata changes run the shared scope validation without building the extension. Changes to extension code, dependencies, build tooling, or CI run the token, privacy, build and browser checks. The final `verify` check remains present on every pull request; manual CI dispatch runs the complete profile. See [Oddmash CI policy](https://github.com/Oddmash/.github/blob/main/docs/CI-POLICY.md).
