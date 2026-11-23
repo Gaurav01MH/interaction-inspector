@@ -51,6 +51,7 @@ test('MV3 inspector picks, observes, protects input, stops, resets, and closes',
     });
     await page.goto(origin);
     await panel.waitFor();
+    await page.screenshot({ path: 'test-results/renewal/demo-empty.png', animations: 'disabled' });
     const pickButton = panel.getByRole('button', { name: 'Pick element' });
     await pickButton.hover();
     assert.equal(await pickButton.evaluate((node) => getComputedStyle(node).backgroundColor), 'rgb(57, 73, 96)');
@@ -109,8 +110,21 @@ test('MV3 inspector picks, observes, protects input, stops, resets, and closes',
     assert.equal(await timeline.getByRole('listitem').count(), count);
     await button.click();
     assert.equal(await timeline.getByRole('listitem').count(), count);
+    await page.screenshot({ path: 'test-results/renewal/demo-recorded.png', animations: 'disabled' });
     await panel.getByRole('button', { name: 'Reset' }).click();
     await panel.getByText('No events recorded.').waitFor();
+    await page.setViewportSize({ width: 320, height: 600 });
+    const box = await panel.boundingBox();
+    assert.ok(box && box.x >= 0 && box.x + box.width <= 321);
+    assert.ok(box && box.y >= 0 && box.y + box.height <= 601);
+    assert.equal(await panel.locator('.controls').evaluate((controls) =>
+      controls.scrollWidth <= controls.clientWidth), true);
+    assert.equal(await panel.getByRole('button', { name: 'Copy Markdown' }).isDisabled(), true);
+    assert.ok(await panel.locator('.controls button').evaluateAll((buttons) =>
+      buttons.every((button) => button.getBoundingClientRect().height >= 44)));
+    assert.ok(await panel.getByRole('button', { name: 'Close inspector' }).evaluate((button) =>
+      button.getBoundingClientRect().height >= 44 && button.getBoundingClientRect().width >= 44));
+    await page.screenshot({ path: 'test-results/renewal/mobile-panel.png', animations: 'disabled' });
     await panel.getByRole('button', { name: 'Close inspector' }).click();
     await panel.waitFor({ state: 'detached' });
   } finally {

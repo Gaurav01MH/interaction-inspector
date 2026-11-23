@@ -117,6 +117,6 @@ test('the production toolbar action opens the inspector using activeTab', { time
       await exited;
     }
     if (site.listening) await new Promise((resolve) => site.close(resolve));
-    await rm(profile, { recursive: true, force: true });
+    await rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   }
 });

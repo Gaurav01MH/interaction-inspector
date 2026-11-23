@@ -261,8 +261,11 @@ const mount = () => {
           <Button variant="secondary" size="sm" onClick={reset}>Reset</Button>
           <Button variant="secondary" size="sm" onClick={copyReport} disabled={!current && !visibleEntries.length}>Copy Markdown</Button>
         </div>
-        <p role="status" aria-live="polite">{copyStatus}</p>
-        <p role="status">{picking ? 'Click an element or press Escape.' : active ? 'Recording' : 'Recording stopped'}</p>
+        <p className="recording-status" role="status" data-recording={active} data-picking={picking}>
+          <span aria-hidden="true" className="status-marker" />
+          {picking ? 'Click an element or press Escape.' : active ? 'Recording' : 'Recording stopped'}
+        </p>
+        <p className="copy-status" role="status" aria-live="polite">{copyStatus}</p>
         <h2>Element state</h2>
         {current ? (
           <dl>
@@ -274,7 +277,7 @@ const mount = () => {
             {current.aria.map(([name, value]) => <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}
             {current.namingAttributes.map((name) => <div key={name}><dt>{name}</dt><dd>Present</dd></div>)}
           </dl>
-        ) : <p>Pick an element to inspect its state.</p>}
+        ) : <p className="empty-state">Pick an element to inspect its state.</p>}
         <h2>Observed events <span>· {entries.length} / 200</span></h2>
         <Field className="filters" legend="Timeline filters">
           <label>Event type
@@ -296,7 +299,7 @@ const mount = () => {
               <li key={id}><time>{elapsed} ms</time><strong>{type}</strong><code>{target}</code></li>,
             )}
           </ol>
-        ) : <p>{entries.length ? 'No events match these filters.' : 'No events recorded.'}</p>}
+        ) : <p className="empty-state">{entries.length ? 'No events match these filters.' : 'No events recorded.'}</p>}
         <h2>Inference</h2>
         <p>{latest ? `Latest visible event modality: ${classifyModality(latest.type)}` : 'No interaction to classify.'}</p>
       </section>
