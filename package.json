@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm run tokens && tsc --noEmit && vite build --mode worker && vite build --mode inspector",
     "test": "node --test tests/privacy.test.mjs",
-    "test:e2e": "node --test tests/extension.test.mjs tests/toolbar.test.mjs",
+    "test:e2e": "node --test --test-concurrency=1 tests/extension.test.mjs tests/toolbar.test.mjs",
     "demo": "vite --host 127.0.0.1",
     "tokens": "node scripts/tokens.mjs",
     "tokens:check": "node scripts/tokens.mjs --check"
