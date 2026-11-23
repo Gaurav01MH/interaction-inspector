@@ -120,6 +120,10 @@ test('MV3 inspector picks, observes, protects input, stops, resets, and closes',
     assert.equal(await panel.locator('.controls').evaluate((controls) =>
       controls.scrollWidth <= controls.clientWidth), true);
     assert.equal(await panel.getByRole('button', { name: 'Copy Markdown' }).isDisabled(), true);
+    assert.ok(await panel.locator('.controls button').evaluateAll((buttons) =>
+      buttons.every((button) => button.getBoundingClientRect().height >= 44)));
+    assert.ok(await panel.getByRole('button', { name: 'Close inspector' }).evaluate((button) =>
+      button.getBoundingClientRect().height >= 44 && button.getBoundingClientRect().width >= 44));
     await page.screenshot({ path: 'test-results/renewal/mobile-panel.png', animations: 'disabled' });
     await panel.getByRole('button', { name: 'Close inspector' }).click();
     await panel.waitFor({ state: 'detached' });
