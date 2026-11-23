@@ -11,7 +11,7 @@ Treat every localized README as a product introduction, not a repository setup g
 - Keep the inspector UI inside its closed Shadow DOM. Product layout, timeline visualization, and project-specific tokens remain local even when shared Oddmash UI components are adopted.
 - When adopting Oddmash UI, pin a reviewed commit until an approved package release exists and verify visual geometry, focus behavior, extension permissions, privacy tests, and bundle impact.
 
-Before handoff, run `npm test`, `npm run build`, and—when extension behavior or UI changes—`npm run test:e2e`. Explain any permission, captured-field, or privacy-boundary change explicitly.
+Before handoff, run `pnpm test`, `pnpm run build`, and—when extension behavior or UI changes—`pnpm run test:e2e`. Explain any permission, captured-field, or privacy-boundary change explicitly.
 
 ## Public contribution language
 
