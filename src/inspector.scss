@@ -216,5 +216,17 @@
     inset: 8px 8px auto auto;
     width: calc(100vw - 16px);
     max-height: calc(100dvh - 16px);
+
+    .controls button, header button, .filters .om-select {
+      min-height: 44px;
+    }
+
+    header button {
+      min-width: 44px;
+    }
+
+    .filters label {
+      min-height: 44px;
+    }
   }
 }
