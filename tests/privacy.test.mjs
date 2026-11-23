@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { classifyModality, labelForTag, readAria, readTabIndex } from '../src/privacy.ts';
+import { classifyModality, formatInspectionMarkdown, labelForTag, readAria, readTabIndex } from '../src/privacy.ts';
 
 test('ARIA only emits allowlisted tokens and does not read naming attributes', () => {
   const visited = [];
@@ -72,4 +72,14 @@ test('toolbar action injects only into the clicked tab and reports restricted pa
   } finally {
     delete globalThis.chrome;
   }
+});
+
+test('Markdown export contains only normalized inspection evidence', () => {
+  const report = formatInspectionMarkdown({ tag: 'secret-custom-tag', focused: true, focusVisible: false, tabIndex: 'secret-value', aria: [['aria-expanded', 'true'], ['aria-label', 'secret-value'], ['aria-hidden', 'secret-value']], namingAttributes: ['aria-label', 'secret-value'], rolePresent: true }, [{ type: 'click', target: 'button', elapsed: 12, key: 'secret-value' }, { type: 'keydown', target: 'secret-custom-tag', elapsed: 15 }, { type: 'secret-value', target: 'button', elapsed: 1 }]);
+  assert.match(report, /aria-expanded: true/);
+  assert.match(report, /aria-label: Present/);
+  assert.match(report, /\| 12 \| click \| button \|/);
+  assert.match(report, /\| 15 \| keydown \| element \|/);
+  assert.doesNotMatch(report, /secret-value|secret-custom-tag/);
+  assert.match(formatInspectionMarkdown(null, []), /No element selected/);
 });

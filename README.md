@@ -17,6 +17,7 @@ An interface can look correct while behaving differently for a mouse and a keybo
 - Review the latest 200 trusted `focusin`, `focusout`, `click`, and `keydown` events in a readable timeline.
 - Filter the timeline by event type or show only events targeting the selected element.
 - Compare event activity with a separate, intentionally conservative input-modality inference.
+- Copy the inspected state and filtered timeline as Markdown for a bug report.
 
 ## A typical use case
 
