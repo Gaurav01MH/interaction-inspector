@@ -49,7 +49,7 @@ export const formatInspectionMarkdown = (snapshot: InspectionSnapshot | null, ev
   const lines = ['## Interaction Inspector', '', '### Element state'];
   if (snapshot) {
     lines.push(`- Element: \`${labelForTag(snapshot.tag)}\``, `- Focus: ${Boolean(snapshot.focused)}`, `- Focus visible: ${Boolean(snapshot.focusVisible)}`, `- Tabindex: ${['(absent)', '(invalid integer)', '-1', '0', '< −1', '> 0'].includes(snapshot.tabIndex) ? snapshot.tabIndex : '(invalid integer)'}`, `- Role attribute: ${snapshot.rolePresent ? 'Present' : 'Absent'}`);
-    const values = new Map(snapshot.aria);
+    const values = new Map<string, string>(snapshot.aria.flatMap(([name, value]) => typeof name === 'string' && typeof value === 'string' ? [[name, value] as const] : []));
     for (const [name, value] of readAria(name => values.get(name) ?? null)) lines.push(`- ${name}: ${value}`);
     for (const name of ['aria-label', 'aria-labelledby', 'aria-describedby']) if (snapshot.namingAttributes.includes(name)) lines.push(`- ${name}: Present`);
   } else lines.push('No element selected.');
