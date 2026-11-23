@@ -38,3 +38,25 @@ export const classifyModality = (type: EventType) => {
   if (type === 'keydown') return 'Keyboard';
   return 'Undetermined';
 };
+
+export type InspectionSnapshot = {
+  tag: string; focused: boolean; focusVisible: boolean; tabIndex: string;
+  aria: string[][]; namingAttributes: string[]; rolePresent: boolean;
+};
+export type InspectionEvent = { type: EventType; target: string; elapsed: number };
+
+export const formatInspectionMarkdown = (snapshot: InspectionSnapshot | null, events: readonly InspectionEvent[]) => {
+  const lines = ['## Interaction Inspector', '', '### Element state'];
+  if (snapshot) {
+    lines.push(`- Element: \`${labelForTag(snapshot.tag)}\``, `- Focus: ${Boolean(snapshot.focused)}`, `- Focus visible: ${Boolean(snapshot.focusVisible)}`, `- Tabindex: ${['(absent)', '(invalid integer)', '-1', '0', '< −1', '> 0'].includes(snapshot.tabIndex) ? snapshot.tabIndex : '(invalid integer)'}`, `- Role attribute: ${snapshot.rolePresent ? 'Present' : 'Absent'}`);
+    const values = new Map<string, string>(snapshot.aria.flatMap(([name, value]) => typeof name === 'string' && typeof value === 'string' ? [[name, value] as const] : []));
+    for (const [name, value] of readAria(name => values.get(name) ?? null)) lines.push(`- ${name}: ${value}`);
+    for (const name of ['aria-label', 'aria-labelledby', 'aria-describedby']) if (snapshot.namingAttributes.includes(name)) lines.push(`- ${name}: Present`);
+  } else lines.push('No element selected.');
+  lines.push('', '### Filtered timeline', '', '| Elapsed (ms) | Event | Element |', '| ---: | --- | --- |');
+  for (const event of events.slice(-200)) {
+    if (!eventTypes.includes(event.type) || !Number.isSafeInteger(event.elapsed) || event.elapsed < 0) continue;
+    lines.push(`| ${event.elapsed} | ${event.type} | ${labelForTag(event.target)} |`);
+  }
+  return lines.join('\n');
+};

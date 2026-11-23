@@ -91,6 +91,14 @@ test('MV3 inspector picks, observes, protects input, stops, resets, and closes',
     await timeline.getByText('click', { exact: true }).first().waitFor();
     assert.ok((await timeline.getByRole('listitem').count()) < count);
     assert.equal(await timeline.getByText('keydown', { exact: true }).count(), 0);
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin });
+    await panel.getByRole('button', { name: 'Copy Markdown' }).click();
+    await panel.getByText('Copied Markdown', { exact: true }).waitFor();
+    const markdown = await page.evaluate(() => navigator.clipboard.readText());
+    assert.match(markdown, /### Filtered timeline/);
+    assert.match(markdown, /\| \d+ \| click \| button \|/);
+    assert.doesNotMatch(markdown, /\| keydown \||Example password/);
+    assert.equal(await eventType.inputValue(), 'click');
     await eventType.selectOption('all');
     await selectedOnly.focus();
     await selectedOnly.press('Space');

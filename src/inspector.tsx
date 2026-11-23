@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Button } from '@oddmash/ui/button';
 import { Field } from '@oddmash/ui/field';
@@ -6,7 +6,7 @@ import { Select } from '@oddmash/ui/select';
 import { Switch } from '@oddmash/ui/switch';
 import uiStyles from '@oddmash/ui/styles.css?inline';
 import styles from './inspector.scss?inline';
-import { classifyModality, eventTypes, labelForTag, readAria, readTabIndex } from './privacy';
+import { classifyModality, eventTypes, formatInspectionMarkdown, labelForTag, readAria, readTabIndex } from './privacy';
 import type { EventType } from './privacy';
 
 
@@ -75,6 +75,8 @@ const mount = () => {
     const [current, setCurrent] = useState<Snapshot | null>(null);
     const [eventFilter, setEventFilter] = useState<EventType | 'all'>('all');
     const [selectedOnly, setSelectedOnly] = useState(false);
+    const [copyStatus, setCopyStatus] = useState('');
+    const copyRequest = useRef(0);
 
     const highlight = (element: Element | null) => {
       overlay.hidden = !element?.isConnected;
@@ -209,6 +211,8 @@ const mount = () => {
       setEntries([]);
       setEventFilter('all');
       setSelectedOnly(false);
+      copyRequest.current++;
+      setCopyStatus('');
       targetIds = new WeakMap();
       nextTargetId = 0;
     };
@@ -227,6 +231,7 @@ const mount = () => {
       window.addEventListener('pagehide', hide);
       return () => {
         window.removeEventListener('pagehide', hide);
+        copyRequest.current++;
         recording?.abort();
         picker?.abort();
         watching?.abort();
@@ -240,6 +245,13 @@ const mount = () => {
       (!selectedOnly || selectedId === undefined || targetId === selectedId),
     );
     const latest = visibleEntries.at(-1);
+    const copyReport = async () => {
+      const request = ++copyRequest.current;
+      let status = 'Copied Markdown';
+      try { await navigator.clipboard.writeText(formatInspectionMarkdown(current, visibleEntries)); }
+      catch { status = 'Copy failed. Try again on an HTTPS page.'; }
+      if (request === copyRequest.current) setCopyStatus(status);
+    };
     return (
       <section aria-label="Interaction Inspector" className="panel">
         <header><h1>Interaction Inspector</h1><Button variant="secondary" size="sm" onClick={close} aria-label="Close inspector">×</Button></header>
@@ -247,7 +259,9 @@ const mount = () => {
           <Button variant="secondary" size="sm" onClick={pick} aria-pressed={picking}>{picking ? 'Cancel pick' : 'Pick element'}</Button>
           <Button variant="secondary" size="sm" onClick={active ? stop : start}>{active ? 'Stop' : 'Start'}</Button>
           <Button variant="secondary" size="sm" onClick={reset}>Reset</Button>
+          <Button variant="secondary" size="sm" onClick={copyReport} disabled={!current && !visibleEntries.length}>Copy Markdown</Button>
         </div>
+        <p role="status" aria-live="polite">{copyStatus}</p>
         <p role="status">{picking ? 'Click an element or press Escape.' : active ? 'Recording' : 'Recording stopped'}</p>
         <h2>Element state</h2>
         {current ? (
