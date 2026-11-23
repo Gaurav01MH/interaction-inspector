@@ -4,12 +4,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Interaction Inspector demo</title>
   <style>
-    body { font: 16px/1.5 system-ui; margin: 3rem; max-width: 36rem; color: #172136; }
-    section { display: grid; gap: 1rem; justify-items: start; }
-    button, input { font: inherit; }
+    * { box-sizing: border-box; }
+    body { font: 16px/1.6 system-ui, sans-serif; margin: 0; color: #191919; background: #f8f8f7; }
+    main { max-width: 40rem; margin: 0; padding: clamp(24px, 5vw, 64px); }
+    h1 { font-size: clamp(30px, 4vw, 48px); line-height: 1.1; letter-spacing: -.045em; margin: 0 0 16px; }
+    p { color: #555; }
+    section { display: grid; gap: 16px; justify-items: start; border: 1px solid #d1d1d0; border-radius: 10px; padding: 20px; background: #fff; }
+    label { display: grid; gap: 6px; width: 100%; }
+    button, input { font: inherit; min-height: 44px; border: 1px solid #777; border-radius: 6px; padding: 8px 12px; color: inherit; background: #fff; max-width: 100%; }
+    button { background: #191919; color: white; cursor: pointer; }
+    button:hover { background: #444; }
     :focus-visible { outline: 3px solid #285ec5; outline-offset: 3px; }
   </style>
   <main>
+    <p>Oddmash · Developer tools</p>
     <h1>Interaction Inspector demo</h1>
     <p>Pick the disclosure button, start recording, and use Tab and Enter. Click the button to change its ARIA state.</p>
     <section>
