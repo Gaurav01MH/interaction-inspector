@@ -95,3 +95,126 @@
   outline: 2px solid #58b8ff;
   background: #58b8ff26;
 }
+
+.panel {
+  width: min(380px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 14px;
+  scrollbar-width: thin;
+
+  header {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--om-inspector-panel-border);
+  }
+
+  header button {
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 18px;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .controls button {
+    min-height: 36px;
+    padding: 6px 8px;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  button:disabled { cursor: not-allowed; opacity: .55; }
+
+  .recording-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    margin: 10px 0 0;
+    border: 1px solid var(--om-inspector-panel-border);
+    border-radius: 6px;
+    min-height: 38px;
+  }
+
+  .status-marker {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+  }
+
+  .recording-status[data-recording='true'] .status-marker {
+    background: currentColor;
+  }
+
+  .recording-status[data-picking='true'] .status-marker {
+    border-radius: 2px;
+    background: transparent;
+  }
+
+  .copy-status {
+    min-height: 1.5em;
+    margin: 4px 0 0;
+    overflow-wrap: anywhere;
+  }
+
+  h2 {
+    padding-top: 12px;
+    margin: 8px 0;
+    border-top: 1px solid var(--om-inspector-panel-border);
+  }
+
+  dl {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6px 12px;
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--om-semantic-color-surface);
+  }
+
+  dt, dd { overflow-wrap: anywhere; }
+  dt { color: var(--om-semantic-color-muted); }
+  dd { font-family: ui-monospace, monospace; }
+
+  .filters {
+    border-color: var(--om-inspector-panel-border);
+    border-radius: 6px;
+    padding: 8px;
+  }
+
+  .filters .om-select { min-height: 32px; }
+
+  .empty-state {
+    padding: 16px 12px;
+    border: 1px dashed var(--om-inspector-panel-border);
+    border-radius: 6px;
+    text-align: center;
+    margin-block: 8px;
+  }
+}
+
+.timeline {
+  max-height: min(224px, 34dvh);
+
+  li {
+    grid-template-columns: minmax(54px, .8fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6px;
+    padding: 8px 4px;
+    border-color: var(--om-inspector-panel-border);
+    overflow-wrap: anywhere;
+  }
+
+  time { font-variant-numeric: tabular-nums; }
+}
+
+@media (max-width: 420px) {
+  .panel {
+    inset: 8px 8px auto auto;
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+  }
+}
