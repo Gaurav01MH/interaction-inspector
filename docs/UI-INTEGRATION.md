@@ -1,6 +1,6 @@
 # Oddmash UI integration
 
-The inspector uses Button for panel actions and Field, Select, and Switch for timeline filters. Shared CSS is adopted inside the existing closed Shadow DOM. Panel dimensions, the dark palette, and timeline layout belong to the extension. The package is pinned to an exact npm version in `package.json` and `package-lock.json`.
+The inspector uses Button for panel actions and Field, Select, and Switch for timeline filters. Shared CSS is adopted inside the existing closed Shadow DOM. Panel dimensions, the dark palette, and timeline layout belong to the extension. The package is pinned to an exact npm version in `package.json` and `pnpm-lock.yaml`.
 
 The initial Button migration matched the previous panel screenshot in its Chromium fixture. That result describes the original migration. Later work added the shared filter controls and their keyboard coverage.
 
