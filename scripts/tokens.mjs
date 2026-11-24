@@ -4,7 +4,7 @@ const dictionary = new StyleDictionary({ usesDtcg: true, source: ['tokens/inspec
 const [{ output }] = await dictionary.formatPlatform('css');
 const path = 'src/generated/inspector-tokens.css';
 if (process.argv.includes('--check')) {
-  if (await readFile(path, 'utf8') !== output) throw new Error('Run npm run tokens');
+  if (await readFile(path, 'utf8') !== output) throw new Error('Run pnpm run tokens');
 } else {
   await mkdir('src/generated', { recursive: true });
   await writeFile(path, output);
