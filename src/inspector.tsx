@@ -281,11 +281,12 @@ const mount = () => {
         <h2>Observed events <span>· {entries.length} / 200</span></h2>
         <Field className="filters" legend="Timeline filters">
           <label>Event type
-            <Select value={eventFilter} onChange={(event) =>
-              setEventFilter(event.target.value as EventType | 'all')}>
-              <option value="all">All events</option>
-              {eventTypes.map((type) => <option key={type}>{type}</option>)}
-            </Select>
+            <Select aria-label="Event type" value={eventFilter}
+              onValueChange={(value) => setEventFilter(value as EventType | 'all')}
+              options={[
+                { value: 'all', label: 'All events' },
+                ...eventTypes.map((type) => ({ value: type, label: type })),
+              ]} />
           </label>
           <label>
             <Switch checked={selectedOnly && selectedId !== undefined}
