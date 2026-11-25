@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [develop, main]
     types: [opened, reopened, synchronize, edited, ready_for_review]
   workflow_dispatch:
 
@@ -39,10 +40,13 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm run tokens:check
-      - run: pnpm test
-      - run: pnpm run build
+      - name: Privacy unit tests
+        run: pnpm test
+      - name: Build extension
+        run: pnpm run build
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm run test:e2e
+      - name: Chromium extension E2E
+        run: pnpm run test:e2e
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -50,11 +54,12 @@ jobs:
           name: inspector-renewal-captures
           path: test-results/renewal/
           if-no-files-found: warn
+          retention-days: 7
 
   verify:
     needs: [scope, extension]
     if: always()
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     steps:
       - name: Confirm appropriate checks passed
