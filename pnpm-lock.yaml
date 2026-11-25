@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@oddmash/ui':
-        specifier: 0.2.0
-        version: 0.2.0(@types/react-dom@19.2.7(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: 0.7.0
+        version: 0.7.0(@types/react-dom@19.2.7(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -327,8 +327,8 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@oddmash/ui@0.2.0':
-    resolution: {integrity: sha512-UmukerCs1lOBgYstdtmPWyoDBOTxpkvFWHVGqyoYOixWq3jjlMgmmP2rESOi5svof5DDcK8VWJIoDSP1wHvvig==}
+  '@oddmash/ui@0.7.0':
+    resolution: {integrity: sha512-oXUbg9WOOTJxj8HGD1MGJW5Duoppi9XU519WLgPNO92aW9P3EWt+SYp9n+PnKs3U1wrHXN2DL8Waj/9mY04aQA==}
     engines: {node: '>=24'}
     peerDependencies:
       react: ^18.3.1 || ^19.0.0
@@ -1547,7 +1547,7 @@ snapshots:
       '@jsonjoy.com/codegen': 17.67.0(tslib@2.9.1)
       tslib: 2.9.1
 
-  '@oddmash/ui@0.2.0(@types/react-dom@19.2.7(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@oddmash/ui@0.7.0(@types/react-dom@19.2.7(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@radix-ui/react-dialog': 1.3.1(@types/react-dom@19.2.7(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@radix-ui/react-tabs': 1.2.1(@types/react-dom@19.2.7(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
