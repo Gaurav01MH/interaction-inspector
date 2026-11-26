@@ -99,7 +99,8 @@ test('MV3 inspector picks, cancels, observes, protects input, stops, resets, and
     const filters = panel.getByRole('group', { name: 'Timeline filters' });
     const eventType = filters.getByRole('combobox', { name: 'Event type' });
     const selectedOnly = filters.getByRole('switch', { name: 'Selected element' });
-    await eventType.selectOption('click');
+    await eventType.click();
+    await filters.getByRole('option', { name: 'click', exact: true }).click();
     await timeline.getByText('click', { exact: true }).first().waitFor();
     assert.ok((await timeline.getByRole('listitem').count()) < count);
     assert.equal(await timeline.getByText('keydown', { exact: true }).count(), 0);
@@ -110,8 +111,10 @@ test('MV3 inspector picks, cancels, observes, protects input, stops, resets, and
     assert.match(markdown, /### Filtered timeline/);
     assert.match(markdown, /\| \d+ \| click \| button \|/);
     assert.doesNotMatch(markdown, /\| keydown \||Example password/);
-    assert.equal(await eventType.inputValue(), 'click');
-    await eventType.selectOption('all');
+    assert.equal(await eventType.innerText(), 'click');
+    await eventType.press('Home');
+    await eventType.press('Enter');
+    assert.equal(await eventType.innerText(), 'All events');
     await selectedOnly.focus();
     await selectedOnly.press('Space');
     assert.equal(await selectedOnly.isChecked(), true);
